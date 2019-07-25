@@ -1,3 +1,5 @@
+#!/usr/bin/ruby
+
 def indices(str, chr)
     (0 ... str.length).find_all { |i| str[i] == chr }
 end
@@ -90,7 +92,7 @@ def str_to_val(str)
 end
 
 def val_to_str(val)
-    sanatize(val).to_s
+    sanitize(val).to_s
 end
 
 def falsey(val)
@@ -164,13 +166,13 @@ def eval_chain(chain)
             return $uneval_ops[op][*args]
         end
         raise "undefined operation `#{op}`" unless $ops.has_key? op
-        return sanatize $ops[op][*sanatize(args.map { |ch| eval_chain ch })]
+        return sanitize $ops[op][*sanitize(args.map { |ch| eval_chain ch })]
     end
 end
 
-def sanatize(arg)
+def sanitize(arg)
     if arg.is_a? Array
-        arg.map { |e| sanatize e }
+        arg.map { |e| sanitize e }
     elsif arg.is_a? Float
         arg == arg.to_i ? arg.to_i : arg
     else
@@ -183,7 +185,7 @@ parsed = parse(prog)
 res = parsed.map { |ch| eval_chain ch }
 res = res.reject { |e| e == $UNDEF } if res.is_a? Array
 res = res.is_a?(Array) && res.length == 1 ? res.pop : res
-to_print = sanatize(res)
+to_print = sanitize(res)
 unless $outted
     if ARGV[1] && ARGV[1][1] == "d"
         p to_print
