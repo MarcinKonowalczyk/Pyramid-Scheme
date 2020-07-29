@@ -17,10 +17,23 @@ end
 
 class TestPyra < Test::Unit::TestCase
  
-  def test_simple
+  def test_indices
+    assert_equal(indices('zxcbvbnm','b'),[3,5])
+  end
+ 
+  def test_unwrap
+    assert_equal(unwrap(['hello']),'hello')
+    x = [1,2,'hello']
+    assert_equal(unwrap(x),x)
+  end
+end
+
+class TestPrograms < Test::Unit::TestCase
+ 
+  def test_greeting
     out = with_captured_stdout {
-    args = [__dir__ + '/hi.pyra']
-    run_pyra(args)
+      args = [__dir__ + '/hi.pyra']
+      run_pyra(args)
     }
     assert_equal('hi!',out,"Greeting program failed")
   end

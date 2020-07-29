@@ -1,0 +1,14 @@
+language: ruby
+
+rvm:
+  - 2.7
+  
+script:
+  - ruby -e "p RUBY_VERSION"
+  - ruby ./tests/tc_pyra.rb
+
+after_success:
+  - echo == ALL TESTS PASSED ==
+
+after_failure:
+  - echo == FAILURE ==
