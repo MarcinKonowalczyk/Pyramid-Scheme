@@ -13,7 +13,7 @@ branches:
   
 script:
   - ruby -e "p RUBY_VERSION"
-  - ruby ./tests/tc_pyra.rb
+  - ruby ./tests/tc_pyra.rb --verbose
 
 after_success:
   - echo == ALL TESTS PASSED ==

@@ -14,6 +14,13 @@ ensure
   $stdout = original_stdout  # restore $stdout to its previous value
 end
 
+def assert_message(message)
+  begin
+    yield
+  rescue => e
+    assert_equal(e.message,message)
+  end
+end
 
 class TestPyra < Test::Unit::TestCase
  
@@ -26,6 +33,57 @@ class TestPyra < Test::Unit::TestCase
     x = [1,2,'hello']
     assert_equal(unwrap(x),x)
   end
+
+end
+
+class TestTriangleParser < Test::Unit::TestCase
+
+  def test_empty
+    assert_message("no triangle found") {
+      triangle_from(''.lines)
+    }
+  end
+
+  def test_trinagle_end_1
+    assert_message("unexpected triangle end") {
+      triangle_from(" ^ \n/ \\".lines)
+    }
+  end
+
+  def test_trinagle_end_2
+    assert_message("unexpected triangle end") {
+      triangle_from(" ^ \n/ \\\n--".lines)
+    }
+  end
+
+  def test_right_side_too_shot
+    assert_message("right side too short") {
+      triangle_from(" ^ \n/  ".lines)
+    }
+  end
+
+  def test_left_side_too_shot
+    assert_message("left side too short") {
+      triangle_from(" ^ \n  \\".lines)
+    }
+  end
+
+  def test_malformed_bottom
+    assert_message("malformed bottom") {
+      triangle_from(" ^ \n/ \\\n-- ".lines)
+    }
+  end
+
+  def test_large_triange
+    c = triangle_from("   ^ \n  / \\\n /   \\\n/hello\\\n-------".lines)
+    assert_equal(c,["hello"])
+  end
+
+  def test_tiny_triangle
+    c = triangle_from("^\n-".lines)
+    assert_equal(c,[""])
+  end
+
 end
 
 class TestPrograms < Test::Unit::TestCase
