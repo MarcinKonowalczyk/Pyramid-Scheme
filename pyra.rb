@@ -180,18 +180,24 @@ def sanitize(arg)
     end
 end
 
-prog = File.read(ARGV[0]).gsub(/\r/, "")
-parsed = parse(prog)
-res = parsed.map { |ch| eval_chain ch }
-res = res.reject { |e| e == $UNDEF } if res.is_a? Array
-res = res.is_a?(Array) && res.length == 1 ? res.pop : res
-to_print = sanitize(res)
-unless $outted
-    if ARGV[1] && ARGV[1][1] == "d"
-        p to_print
-    else
-        puts to_print
+def run_pyra(arg)
+    prog = File.read(arg[0]).gsub(/\r/, "")
+    parsed = parse(prog)
+    res = parsed.map { |ch| eval_chain ch }
+    res = res.reject { |e| e == $UNDEF } if res.is_a? Array
+    res = res.is_a?(Array) && res.length == 1 ? res.pop : res
+    to_print = sanitize(res)
+    unless $outted
+        if arg[1] && arg[1][1] == "d"
+            p to_print
+        else
+            puts to_print
+        end
     end
+end
+
+if __FILE__ == $0
+    run_pyra(ARGV)
 end
 
 # p $vars
