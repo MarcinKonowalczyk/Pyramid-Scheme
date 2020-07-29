@@ -14,6 +14,18 @@ ensure
   $stdout = original_stdout  # restore $stdout to its previous value
 end
 
+def with_defined_stdin(stdin)
+  original_stdin = $stdin
+  $stdin = StringIO.new(stdin)
+  yield
+ensure
+  $stdin = original_stdin
+end
+
+def random_string
+  ('a'..'z').to_a.shuffle[0,8].join
+end
+
 def assert_message(message)
   begin
     yield
@@ -82,6 +94,20 @@ class TestTriangleParser < Test::Unit::TestCase
   def test_tiny_triangle
     c = triangle_from("^\n-".lines)
     assert_equal(c,[""])
+  end
+
+end
+
+class TestStringToVal < Test::Unit::TestCase
+
+  def test_line
+    coms = ["line","stdin","readline"]
+    coms.each { |com|
+      v = random_string
+      with_defined_stdin(v) {
+        assert_equal(str_to_val(com),v)
+      }
+    }
   end
 
 end
