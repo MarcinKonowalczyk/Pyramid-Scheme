@@ -2,6 +2,10 @@ language: ruby
 
 rvm:
   - 2.7
+
+branches:
+  only:
+    - add_tests
   
 script:
   - ruby -e "p RUBY_VERSION"
