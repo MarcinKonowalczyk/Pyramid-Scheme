@@ -1,10 +1,10 @@
-# Pyramid Scheme
+# Pyramid Scheme [![Build Status](https://travis-ci.org/MarcinKonowalczyk/Pyramid-Scheme.svg?branch=add_tests)](https://travis-ci.org/MarcinKonowalczyk/Pyramid-Scheme)
 
 Pyramids!
 
 ## What is this language?
 
-Pyramid Scheme is most similar in evaluation style to a LISP-like language. However, instead of anything _sane_ like parentheses to group evaluation order, Pyramid Scheme unsurprisingly uses Pyramids. Yes, Pyramids. The "root" of evaluation is collected on the first line; any `^` character on the first line indicates the beginning of a pyramid. Then, a pyramid must have `/` and `\` characters stemming downards from the `^`, finally closed off by a line of `-`s. Here is an example of a blank Pyramid:
+Pyramid Scheme is most similar in evaluation style to a LISP-like language. However, instead of anything _sane_ like parentheses to group evaluation order, Pyramid Scheme unsurprisingly uses Pyramids. Yes, Pyramids. The "root" of evaluation is collected on the first line; any `^` character on the first line indicates the beginning of a pyramid. Then, a pyramid must have `/` and `\` characters stemming downwards from the `^`, finally closed off by a line of `-`s. Here is an example of a blank Pyramid:
 
 ```
   ^
@@ -76,26 +76,27 @@ There is a limited set of functions, catalogued in this table below. Arity refer
 
 Truth machine, a program that outputs infinite `1`s when supplied a `1`, or a single `0` when supplied a `0`.
 
-        ^        ^
-       / \      / \
-      /set\    /do \
-     ^-----^  ^-----^
-    /a\   /#\/a\   / \
-    ---  ^------  /out\
-        / \      ^-----
-       /   \    /a\
-      /line \   ---
-      -------
-
+```
+    ^         ^
+   / \       / \
+  /set\     /do \
+ ^-----^   ^-----^
+/a\   /#\ /a\   / \
+---  ^--- ---  /out\
+    / \       ^-----
+   /   \     /a\
+  /line \    ---
+  ------- 
+```
 This is equivalent to the LISP-like:
 
-```
+```cs
 (set a (# line)) (do a (out a))
 ```
 
 Or in a Python-like language:
 
-```
+```python
 a = input()
 while a:
     print(a)
@@ -105,18 +106,22 @@ while a:
 
 Here's an if-else statement for the variable `A` (prints `1` for truthy, `0` for falsey):
 
-           ^
-          /?\
-         ^---^
-        /!\ / \
-       ^---/out\
-      /?\  -----^
-     ^---^     /0\
-    /A\ / \    ---
-    ---/out\
-      ^-----
-     /1\
-     ---
+```
+       ^
+      /?\
+     ^---^
+    /!\ / \
+   ^---/out\
+  /?\  -----^
+ ^---^     /0\
+/A\ / \    ---
+---/out\
+  ^-----
+ /1\
+ ---
+```
+
+----
 
 Here is an example of a Pyramid being evaluated twice, as it is the child of two different nodes.
 
