@@ -137,19 +137,22 @@ $ops = {
     "!" => -> (a) { falsey(a).to_i },
     "[" => -> (a, b) { a },
     "]" => -> (a, b) { b },
+    "nil" => -> (*a) { unwrap a; nil },
 }
 
 def eval_chain(chain)
-    if chain.is_a? String
-        return str_to_val chain
-    else
-        op, args = chain
-        if $uneval_ops.has_key? op
-            return $uneval_ops[op][*args]
-        end
-        raise "undefined operation `#{op}`" unless $ops.has_key? op
-        return sanitize $ops[op][*sanitize(args.map { |ch| eval_chain ch })]
+    op, args = chain
+    args = [] if args == nil # Set args to [] if chain was just a string
+    # Match against all possible operations
+    if $uneval_ops.has_key? op
+        return $uneval_ops[op][*args] rescue ArgumentError
     end
+    if $ops.has_key? op
+        return sanitize $ops[op][*sanitize(args.map { |ch| eval_chain ch })] rescue ArgumentError
+    end
+    # It is maybe a string?
+    if args.empty? then return str_to_val op end
+    raise "undefined operation `#{op}`" # Finally blow up if not matched against anything
 end
 
 def sanitize(arg)
