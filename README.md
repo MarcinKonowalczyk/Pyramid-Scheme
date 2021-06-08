@@ -1,4 +1,4 @@
-# Pyramid Scheme [![Build Status](https://travis-ci.org/MarcinKonowalczyk/Pyramid-Scheme.svg?branch=add_tests)](https://travis-ci.org/MarcinKonowalczyk/Pyramid-Scheme)
+# Pyramid Scheme [![Build Status](https://travis-ci.com/MarcinKonowalczyk/Pyramid-Scheme.svg?branch=add_tests)](https://travis-ci.com/MarcinKonowalczyk/Pyramid-Scheme)
 
 Pyramids!
 
@@ -136,3 +136,10 @@ Here is an example of a Pyramid being evaluated twice, as it is the child of two
 ```
 
 This is equivalent to (1 + **3**) + (**3** * 4) = 4 + 12 = 16.
+
+## ToDos
+
+- [ ] `nil` function - always outputs nil
+- [ ] `def` function - defines `a` as subtree `b` called whenever `a` is evaluated
+- [ ] `[A]` function - multi-purpose array function, makes pops and pushes onto an array ??
+- [ ] `icr` (increment) and `dcr` (decrement) functions ??
